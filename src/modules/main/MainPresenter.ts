@@ -32,7 +32,7 @@ export default class MainPresenter {
   }
 
   onOpenDashboard = () => {
-    HistoryManager.push("/dashboard", this);
+    HistoryManager.clearHistory(this);
   };
 
   onOpenLogin = () => {

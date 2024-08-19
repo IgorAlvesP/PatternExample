@@ -28,9 +28,8 @@ const MainView: React.FC<MainViewProps> = ({ presenter }) => {
 
   useEffect(() => {
     const updateView = () => {
-      const { bodyContent } = presenter.scope;
-      setCurrentView(viewComponents[bodyContent] || viewComponents.invalid);
-      console.log("updateView", bodyContent);
+      const url = presenter.scope.bodyContent.split("/")[1] || "dashboard";  
+      setCurrentView(viewComponents[url] || viewComponents.invalid);
     };
 
     presenter.notifyView = updateView;

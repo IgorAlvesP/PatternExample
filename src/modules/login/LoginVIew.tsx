@@ -1,7 +1,8 @@
 import React from "react";
-import LoginPresenter from "../../../presenters/login";
+import LoginPresenter from "./loginPresenter";
 import { Container, LoginContainer } from "./styles";
-import backgroundImage from "../../../assets/images/login-background.png";
+import backgroundImage from "../../assets/images/login-background.png";
+import HistoryManager from "../../managers/historyManager";
 
 type LoginViewProps = {
   presenter: LoginPresenter;
@@ -54,7 +55,10 @@ class LoginView extends React.Component<LoginViewProps> {
             />
             <button
               onClick={() =>
-                this.props.presenter.login(scope.username, scope.password)
+              {
+                this.props.presenter.login(scope.username, scope.password);
+                alert(HistoryManager.getHistory());
+              }
               }
               disabled={scope.loggingIn}
             >

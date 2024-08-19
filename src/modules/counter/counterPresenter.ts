@@ -1,4 +1,4 @@
-import CounterScope from "../../models/counter/CounterScope";
+import CounterScope from "./counterScope";
 
 export class CounterPresenter {
   public readonly scope = new CounterScope();

@@ -1,8 +1,8 @@
 // src/components/ChatView.tsx
 
 import React, { ChangeEvent, MouseEvent } from "react";
-import { ChatPresenter } from "../../../presenters/chat";
-import { ChatContainer, Container } from "./style";
+import { ChatPresenter } from "./chatPresenter";
+import { ChatContainer, Container } from './style'
 
 interface ChatViewProps {
   presenter: ChatPresenter;

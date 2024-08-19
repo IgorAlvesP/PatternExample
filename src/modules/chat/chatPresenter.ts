@@ -1,6 +1,6 @@
 // src/presenters/ChatPresenter.ts
 
-import ChatScope from "../../models/chat";
+import ChatScope from "./chatScope";
 
 export class ChatPresenter {
   public readonly scope = new ChatScope();

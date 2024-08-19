@@ -1,5 +1,5 @@
 import React from "react";
-import { CounterPresenter } from "../../../presenters/counter/CounterPresenter";
+import { CounterPresenter } from "./counterPresenter";
 
 type CounterViewProps = {
   presenter: CounterPresenter;

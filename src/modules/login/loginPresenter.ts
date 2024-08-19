@@ -1,4 +1,4 @@
-import LoginScope from "../../models/login";
+import LoginScope from "./loginScope";
 
 class LoginPresenter {
   public readonly scope = new LoginScope();

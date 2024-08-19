@@ -4,6 +4,8 @@ class HistoryManager {
   private static history: string[] = [];
   private static historyListener: () => void = () => {};
 
+  agora é preciso compor os estados para refletir na url
+
   static push(url: string, presenter: MainPresenter) {
     const currentUrl = this.getUrl();
 

@@ -1,26 +1,41 @@
 import MainPresenter from "../modules/main/MainPresenter";
 
+
 class HistoryManager {
   private static history: string[] = [];
   private static historyListener: () => void = () => {};
+  private static mainPresenter: MainPresenter;
 
-  agora é preciso compor os estados para refletir na url
+  constructor(mainPresenter: MainPresenter) {
+    HistoryManager.mainPresenter = mainPresenter;
+  }
 
-  static push(url: string, presenter: MainPresenter) {
+  static getMainRoute(): string {
+    const isAuthenticated = localStorage.getItem("isAuthenticated") === "true";
+    return isAuthenticated ? "/dashboard" : "/login";
+  }
+
+  static push(url: string) {
+    const isAuthenticated = localStorage.getItem("isAuthenticated") === "true";
+
+
+    if (!isAuthenticated && url !== "/login") {
+      url = "/login";
+    }
+
+    console.log("push", url);
+    console.log('this.history', this.history);
+
     const currentUrl = this.getUrl();
-
     if (currentUrl === url) {
       return;
     }
 
-    if (this.history.length > 0) {
-      this.flip(currentUrl + url, presenter);
-    } else {
       this.history.push(url);
-      this.flip(url, presenter);
-    }
+      this.flip(url);
 
     this.historyListener();
+    HistoryManager.mainPresenter.update();
   }
 
   static getUrl(): string {
@@ -31,22 +46,25 @@ class HistoryManager {
     return this.history;
   }
 
-  static clearHistory(presenter: MainPresenter) {
+  static clearHistory() {
     this.history = [];
-    this.push("/dashboard", presenter);
+    this.push(this.getMainRoute());
   }
-
 
   static listen(listener: () => void) {
     this.historyListener = listener;
   }
 
-  static flip(name: string, presenter: MainPresenter) {
+  static flip(name: string) {
     const formattedName = name.startsWith("/") ? name : `/${name}`;
-    presenter.scope.setView(formattedName.replace("/", ""));
-    presenter.scope.setBody(formattedName.replace("/", ""));
-    presenter.update();
+    HistoryManager.mainPresenter.scope.setView(formattedName.replace("/", ""));
+    HistoryManager.mainPresenter.scope.setBody(formattedName.replace("/", ""));
+    HistoryManager.mainPresenter.update();
     window.history.pushState(null, "", formattedName);
+  }
+
+  static flipToSaved() {
+    this.clearHistory();
   }
 
   static removeLast(url: string) {
@@ -54,6 +72,19 @@ class HistoryManager {
     if (this.history[this.history.length - 1] === url) {
       this.history.pop();
     }
+  }
+
+  static getCurrentView() {
+    const url = this.getUrl();
+    const isAuthenticated = localStorage.getItem("isAuthenticated") === "true";
+    const mainRoute = isAuthenticated ? "dashboard" : "login";
+    
+    if (!isAuthenticated && url !== "/login") {
+      return "login";
+    }
+
+    const viewKey = url.split("/").pop() || mainRoute;
+    return viewKey;
   }
 }
 

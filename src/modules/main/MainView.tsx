@@ -8,19 +8,21 @@ import Settings from "../settings/SettingsVIew";
 import LoginPresenter from "../login/loginPresenter";
 import { ChatPresenter } from "../chat/chatPresenter";
 import { CounterPresenter } from "../counter/counterPresenter";
+import HistoryManager from "../../managers/historyManager";
+import InvalidView from "../invalid/InvalidVIew";
 
 type MainViewProps = {
   presenter: MainPresenter;
 };
 
-
 const viewComponents: Record<string, React.ReactNode> = {
   dashboard: <Dashboard />,
-  login: <LoginView presenter={new LoginPresenter(    )} />,
+  login: <LoginView presenter={new LoginPresenter()} />,
   chat: <ChatView presenter={new ChatPresenter()} />,
   settings: <Settings />,
   counter: <CounterView presenter={new CounterPresenter()} />,
-  invalid: <div>Invalid View</div>
+  invalid: <InvalidView />,
+  logged: <div>u'r authenticate</div>,
 };
 
 const MainView: React.FC<MainViewProps> = ({ presenter }) => {
@@ -28,10 +30,10 @@ const MainView: React.FC<MainViewProps> = ({ presenter }) => {
 
   useEffect(() => {
     const updateView = () => {
-      const url = presenter.scope.bodyContent.split("/")[1] || "dashboard";  
-      setCurrentView(viewComponents[url] || viewComponents.invalid);
+      const view = HistoryManager.getCurrentView();
+      setCurrentView(viewComponents[view] || viewComponents.invalid);
     };
-
+  
     presenter.notifyView = updateView;
     updateView();
   }, [presenter]);
@@ -43,6 +45,10 @@ const MainView: React.FC<MainViewProps> = ({ presenter }) => {
       <button onClick={presenter.onOpenChats}>Chats</button>
       <button onClick={presenter.onOpenSettings}>Settings</button>
       <button onClick={presenter.onOpenCounter}>Counter</button>
+      <button onClick={() => {
+        localStorage.setItem("isAuthenticated", "false");
+        window.location.reload();
+      }}>Logout</button>
       <div>{currentView}</div>
     </div>
   );

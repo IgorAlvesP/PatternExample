@@ -2,12 +2,10 @@ import React from "react";
 import LoginPresenter from "./loginPresenter";
 import { Container, LoginContainer } from "./styles";
 import backgroundImage from "../../assets/images/login-background.png";
-import HistoryManager from "../../managers/historyManager";
 
 type LoginViewProps = {
   presenter: LoginPresenter;
   className?: string;
-  // onLoginSuccess: () => void;
 };
 
 class LoginView extends React.Component<LoginViewProps> {
@@ -57,7 +55,6 @@ class LoginView extends React.Component<LoginViewProps> {
               onClick={() =>
               {
                 this.props.presenter.login(scope.username, scope.password);
-                alert(HistoryManager.getHistory());
               }
               }
               disabled={scope.loggingIn}

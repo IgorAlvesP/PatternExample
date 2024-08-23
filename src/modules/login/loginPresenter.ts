@@ -1,3 +1,4 @@
+import HistoryManager from "../../managers/historyManager";
 import LoginScope from "./loginScope";
 
 class LoginPresenter {
@@ -8,22 +9,22 @@ class LoginPresenter {
 
   async login(userName: string, password: string) {
     this.setLoadingState(true);
-
+  
     const isAuthenticated = await this.authenticate(userName, password);
-
+  
     this.setLoadingState(false);
-
+  
     if (isAuthenticated) {
       this.scope.loggingIn = true;
+      localStorage.setItem("isAuthenticated", "true"); 
+      HistoryManager.push("/dashboard");
       this.switchPage();
     } else {
       this.scope.loggingIn = false;
       alert("Login failed");
     }
-
-    this.update();
-
-    console.log("logged in", this.scope.loggingIn);
+  
+  
   }
 
   private setLoadingState(isLoading: boolean) {

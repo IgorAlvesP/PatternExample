@@ -2,9 +2,8 @@ import MainScope from "./MainScope";
 import HistoryManager from "../../managers/historyManager";
 
 export default class MainPresenter {
-  public historyManager = new HistoryManager();
+  public historyManager = new HistoryManager(this);
   public readonly scope = new MainScope();
-
 
   constructor() {
     window.addEventListener("popstate", () => this.handleHistoryChange());
@@ -20,38 +19,35 @@ export default class MainPresenter {
   notifyView() {}
 
   handleHistoryChange() {
-    const url = window.location.pathname;
-    HistoryManager.removeLast(url);
     this.syncViewWithUrl();
   }
 
   public syncViewWithUrl() {
-    const path = window.location.pathname;
-    HistoryManager.push(path, this);
-    console.log("syncViewWithUrl", HistoryManager.getHistory());
+    const view = HistoryManager.getCurrentView();
+    HistoryManager.push(`/${view}`);
   }
 
   onOpenDashboard = () => {
-    HistoryManager.clearHistory(this);
+    HistoryManager.push("/dashboard");
   };
 
   onOpenLogin = () => {
-    HistoryManager.push("/login", this);
+    HistoryManager.push("/login");
   };
 
   onOpenChats = () => {
-    HistoryManager.push("/chat", this);
+    HistoryManager.push("/chat");
   };
 
   onOpenSettings = () => {
-    HistoryManager.push("/settings", this);
+    HistoryManager.push("/settings");
   };
 
   onOpenCounter = () => {
-    HistoryManager.push("/counter", this);
+    HistoryManager.push("/counter");
   };
 
   onOpenInvalid = () => {
-    HistoryManager.push("/invalid", this);
+    HistoryManager.push("/invalid");
   };
 }

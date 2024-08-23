@@ -1,13 +1,13 @@
 import React from "react";
 
 
-export default class DashBoardView extends React.Component{
+
+export default class InvalidView extends React.Component{
   // implementar o método render
   render() {
     return (
       <div>
-
-      Welcome
+        <h1>Invalid View</h1>
       </div>
     );
   }

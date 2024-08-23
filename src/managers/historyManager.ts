@@ -23,17 +23,17 @@ class HistoryManager {
       url = "/login";
     }
 
-    console.log("push", url);
-    console.log('this.history', this.history);
 
     const currentUrl = this.getUrl();
     if (currentUrl === url) {
       return;
     }
 
+    
       this.history.push(url);
       this.flip(url);
 
+      window.history.pushState(null, "", url);
     this.historyListener();
     HistoryManager.mainPresenter.update();
   }
@@ -83,9 +83,10 @@ class HistoryManager {
       return "login";
     }
 
-    const viewKey = url.split("/").pop() || mainRoute;
+    const viewKey = url.replace("/", "").split("/").pop() || mainRoute;
     return viewKey;
-  }
+}
+  
 }
 
 export default HistoryManager;

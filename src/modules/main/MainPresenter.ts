@@ -27,25 +27,7 @@ export default class MainPresenter {
     HistoryManager.push(`/${view}`);
   }
 
-  onOpenDashboard = () => {
-    HistoryManager.push("/dashboard");
-  };
 
-  onOpenLogin = () => {
-    HistoryManager.push("/login");
-  };
-
-  onOpenChats = () => {
-    HistoryManager.push("/chat");
-  };
-
-  onOpenSettings = () => {
-    HistoryManager.push("/settings");
-  };
-
-  onOpenCounter = () => {
-    HistoryManager.push("/counter");
-  };
 
   onOpenInvalid = () => {
     HistoryManager.push("/invalid");

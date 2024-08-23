@@ -1,6 +1,6 @@
 import React from "react";
 
-export default class Settings extends React.Component {
+export default class SettingsView extends React.Component {
   render() {
     return (
       <div>

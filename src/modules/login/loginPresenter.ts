@@ -17,7 +17,10 @@ class LoginPresenter {
     if (isAuthenticated) {
       this.scope.loggingIn = true;
       localStorage.setItem("isAuthenticated", "true"); 
+      
+      HistoryManager.setRoot("dashboard");
       HistoryManager.push("/dashboard");
+
       this.switchPage();
     } else {
       this.scope.loggingIn = false;

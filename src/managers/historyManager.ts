@@ -5,7 +5,7 @@ class HistoryManager {
   private static history: string[] = [];
   private static historyListener: () => void = () => {};
   private static mainPresenter: MainPresenter;
-
+  private static  root: string;
   constructor(mainPresenter: MainPresenter) {
     HistoryManager.mainPresenter = mainPresenter;
   }
@@ -15,9 +15,11 @@ class HistoryManager {
     return isAuthenticated ? "/dashboard" : "/login";
   }
 
+  // implementar a questão de retornar com o botao back do navegador
+
   static push(url: string) {
     const isAuthenticated = localStorage.getItem("isAuthenticated") === "true";
-
+    
 
     if (!isAuthenticated && url !== "/login") {
       url = "/login";
@@ -28,12 +30,17 @@ class HistoryManager {
     if (currentUrl === url) {
       return;
     }
-
     
-      this.history.push(url);
-      this.flip(url);
+    if(this.root !== "login" && url.replace('/', '') !== this.root){
+      this.history.push(this.root+url);
+    }
 
-      window.history.pushState(null, "", url);
+
+    this.flip(url);
+
+    if(this.root !== url.replace("/", "")){
+      window.history.pushState(null, "", this.root+url);
+    }
     this.historyListener();
     HistoryManager.mainPresenter.update();
   }
@@ -80,11 +87,20 @@ class HistoryManager {
     const mainRoute = isAuthenticated ? "dashboard" : "login";
     
     if (!isAuthenticated && url !== "/login") {
+      this.setRoot("login");
       return "login";
     }
+    this.setRoot(mainRoute);
 
-    const viewKey = url.replace("/", "").split("/").pop() || mainRoute;
+    const viewKey = url.split("/").pop() || mainRoute;
     return viewKey;
+}
+static getRoot(){
+  return this.root;
+}
+
+static setRoot(root: string){
+  this.root = root;
 }
   
 }

@@ -7,7 +7,7 @@ export default class InvalidView extends React.Component{
   render() {
     return (
       <div>
-        <h1>Invalid View</h1>
+        <h1>Invalid View Main View</h1>
       </div>
     );
   }

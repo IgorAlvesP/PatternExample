@@ -4,6 +4,8 @@ import SettingsView from '../settings/SettingsView';
 import { ChatPresenter } from '../chat/chatPresenter';
 import HistoryManager from '../../managers/historyManager';
 import ChatView from '../chat/chatVIew';
+import CounterView from '../counter/CounterView';
+import { CounterPresenter } from '../counter/counterPresenter';
 
 type DashBoardViewProps = {
   presenter: DashBoardPresenter;
@@ -13,6 +15,7 @@ const viewComponents: Record<string, React.ReactNode> = {
   chat: <ChatView presenter={new ChatPresenter()} />,
   settings: <SettingsView />,
   dashboard: <div> Welcome </div>,
+  counter: <CounterView presenter={new CounterPresenter()}/>,
   invalid: <div>Invalid Viewasd</div>,
 };
 
@@ -35,8 +38,8 @@ const DashBoardView: React.FC<DashBoardViewProps> = ({ presenter }) => {
 
   return (
     <div>
-      <button onClick={() => HistoryManager.push("/dashboard/chat")}>Chats</button>
-      <button onClick={() => HistoryManager.push("/dashboard/settings")}>Settings</button>
+      <button onClick={presenter.onOpenChats}>Chats</button>
+      <button onClick={ presenter.onOpenSettings}>Settings</button>
       <button onClick={presenter.onOpenCounter}>Counter</button>
       <button onClick={() => {
         localStorage.setItem("isAuthenticated", "false");
